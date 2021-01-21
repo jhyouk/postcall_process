@@ -16,19 +16,19 @@ input_fn = sys.argv[1]
 #input_fn = '/home/users/jhyouk/06_mm10_SNUH_radiation/31_2_SNP_updated_190315/mm_study4_SI_sham_SO3_snp_union_2.readinfo.readc.rasmy_PanelofNormal.vcf'
 
 input_file = file(input_fn)
-#output_file = file(input_fn.replace('.vcf','.filter1.vcf'),'w')
-#output_file1 = file(input_fn.replace('_snp_union_2.readinfo.readc.rasmy_PanelofNormal.vcf','_snp_filtered.vcf'),'w')
-#output_file2 = file(input_fn.replace('_snp_union_2.readinfo.readc.rasmy_PanelofNormal.vcf','_snp_filtered_mutalisk.vcf'),'w')
-output_file3 = file(input_fn.replace('_snp_union_2.readinfo.readc.rasmy_PanelofNormal.vcf','_snp_filtered_subclonal.vcf'),'w')
+output_file = file(input_fn.replace('.vcf','.filter1.vcf'),'w')
+output_file1 = file(input_fn.replace('_snp_union_2.readinfo.readc.rasmy_PanelofNormal.vcf','_snp_filtered.vcf'),'w')
+output_file2 = file(input_fn.replace('_snp_union_2.readinfo.readc.rasmy_PanelofNormal.vcf','_snp_filtered_mutalisk.vcf'),'w')
+#output_file3 = file(input_fn.replace('_snp_union_2.readinfo.readc.rasmy_PanelofNormal.vcf','_snp_filtered_subclonal.vcf'),'w')
 
 input_line = input_file.readline().strip()
 prev_chr = '0'
 while input_line[0:1] == '#':
     input_split = input_line.split('\t')
-    #output_file.write(input_line + '\tpairedN_read\tPON\tT_vaf\tfilter1\tblank\n')
-    #output_file1.write(input_line + '\tpairedN_read\tPON\tT_vaf\tfilter1\tblank\n')
-    #output_file2.write('\t'.join(input_split[0:10])+'\n')
-    output_file3.write('\t'.join(input_split[0:10])+'\n')
+    output_file.write(input_line + '\tpairedN_read\tPON\tT_vaf\tfilter1\tblank\n')
+    output_file1.write(input_line + '\tpairedN_read\tPON\tT_vaf\tfilter1\tblank\n')
+    output_file2.write('\t'.join(input_split[0:10])+'\n')
+    #output_file3.write('\t'.join(input_split[0:10])+'\n')
     
     input_line = input_file.readline().strip()
 
@@ -50,7 +50,7 @@ while input_line:
     
     if t_var_cor =='.' or t_var_cor == '0':
         info = '\tNA\tNA\tNA\tF'
-        #output_file.write(input_line + info + '\n')
+        output_file.write(input_line + info + '\n')
         input_line = input_file.readline().strip()       
         continue
     else:
@@ -151,21 +151,21 @@ while input_line:
             filter1='T'
                 
         info = '\t%s\t%s\t%s\t%s' %(n_read,input_pon,t_vaf,filter1)
-        #output_file.write(input_line + info + '\t.\n')
+        output_file.write(input_line + info + '\t.\n')
         if filter1 == 'T':
-            #output_file1.write(input_line + info + '\t.\n')
-            if float(t_vaf) >= 0.3:     #when clonal organoid used
-                #output_file2.write('\t'.join(input_split[0:10])+'\n')
-                'blank'
-            else: #when clonal organoid used
-                output_file3.write('\t'.join(input_split[0:10])+'\n') #when clonal organoid used
+            output_file1.write(input_line + info + '\t.\n')
+            #if float(t_vaf) >= 0.3:     #when clonal organoid used
+            output_file2.write('\t'.join(input_split[0:10])+'\n')
+            #    'blank'
+            #else: #when clonal organoid used
+            #    output_file3.write('\t'.join(input_split[0:10])+'\n') #when clonal organoid used
         
     input_line = input_file.readline().strip()
 
-#output_file.close()
-#output_file1.close()
-#output_file2.close()
-output_file3.close()
+output_file.close()
+output_file1.close()
+output_file2.close()
+#output_file3.close()
 
 
 # In[ ]:

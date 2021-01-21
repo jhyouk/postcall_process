@@ -22,7 +22,7 @@ outDir=$(dirname $1)
 log=$outDir/$1.$2.annot.log
 
 echo $1 $2 $3 $4 $5 > $log
-if false; then
+#if false; then
 echo varscan somatic filtering >> $log
 (python /home/users/jhyouk/82_post_calling_process_JYouk/11_SNP_INDEL/11_universe_filter/00_varscan_somaticfilter.py ../05_varscan/$1.varscan.$2.vcf) &>> $log || { c=$?;echo "Error";exit $c; }
 echo done >> $log
@@ -35,11 +35,11 @@ echo "done" >>$log
 echo "panel of normal annotation" >> $log
 (python /home/users/jhyouk/82_post_calling_process_JYouk/11_SNP_INDEL/02_AddNpanelToVCF_"$2".py $1_$2_union_2.readinfo.readc.rasmy.vcf $6 PanelofNormal $species) &>> $log || { c=$?;echo "Error";exit $c; }
 echo "done" >>$log
-fi
+#fi
 echo "filter1 using sample and germline information"  >>$log
 (python /home/users/jhyouk/82_post_calling_process_JYouk/11_SNP_INDEL/03_$2_filter1.py $1_$2_union_2.readinfo.readc.rasmy_PanelofNormal.vcf) &>> $log || { c=$?;echo "Error";exit $c; }
 echo "filter1 done" >> $log
-if false; then
+#if false; then
 echo "Annovar and functional mutation selection"  >>$log
 (python /home/users/jhyouk/82_post_calling_process_JYouk/11_SNP_INDEL/04_"$mttype"_annovar.py "$sampleID"_"$mttype"_filtered.vcf) &>> $log || { c=$?;echo "Error";exit $c; }
 echo "annovar done" >> $log
@@ -48,4 +48,4 @@ echo "remove intermediate files" >> $log
 #rm $1_$2_union_2.readinfo.readc.rasmy.vcf
 #rm $1_$2_union_2.readinfo.readc.rasmy_PanelofNormal.vcf
 echo "Finish!!" >> $log
-fi
+#fi
